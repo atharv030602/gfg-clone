@@ -1464,3 +1464,355 @@ body {
         padding: 20px;
     }
 }
+
+/* Practice Page Styles */
+.practice-hero, .interview-hero, .jobs-hero, .write-hero {
+    background: linear-gradient(135deg, #E8F5E8, #D4F4D4);
+    padding: 120px 0 80px;
+    margin-top: 70px;
+    text-align: center;
+}
+
+.practice-hero h1, .interview-hero h1, .jobs-hero h1, .write-hero h1 {
+    font-size: 3rem;
+    color: #2F8D46;
+    margin-bottom: 20px;
+}
+
+.practice-hero p, .interview-hero p, .jobs-hero p, .write-hero p {
+    font-size: 1.3rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.practice-categories, .interview-content, .jobs-content, .write-content {
+    padding: 80px 0;
+    background: white;
+}
+
+.difficulty-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 12px 24px;
+    border: 2px solid #2F8D46;
+    background: white;
+    color: #2F8D46;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active, .tab-btn:hover {
+    background: #2F8D46;
+    color: white;
+}
+
+.tab-btn.easy { border-color: #28a745; color: #28a745; }
+.tab-btn.medium { border-color: #ffc107; color: #ffc107; }
+.tab-btn.hard { border-color: #dc3545; color: #dc3545; }
+
+.tab-btn.easy.active, .tab-btn.easy:hover { background: #28a745; color: white; }
+.tab-btn.medium.active, .tab-btn.medium:hover { background: #ffc107; color: white; }
+.tab-btn.hard.active, .tab-btn.hard:hover { background: #dc3545; color: white; }
+
+.problems-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.problem-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-left: 5px solid #2F8D46;
+    position: relative;
+}
+
+.problem-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.problem-card.easy-problem { border-left-color: #28a745; }
+.problem-card.medium-problem { border-left-color: #ffc107; }
+.problem-card.hard-problem { border-left-color: #dc3545; }
+
+.problem-difficulty {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.problem-difficulty.easy { background: #28a745; }
+.problem-difficulty.medium { background: #ffc107; }
+.problem-difficulty.hard { background: #dc3545; }
+
+.problem-card h3 {
+    color: #2F8D46;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    margin-right: 80px;
+}
+
+.problem-card p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.problem-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Interview Page Styles */
+.interview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.interview-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-top: 5px solid #2F8D46;
+}
+
+.interview-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.interview-card h3 {
+    color: #2F8D46;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.interview-card p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.interview-card ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.interview-card li {
+    color: #666;
+    padding: 5px 0;
+    position: relative;
+    padding-left: 20px;
+}
+
+.interview-card li::before {
+    content: '✓';
+    color: #2F8D46;
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+/* Jobs Page Styles */
+.jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.job-card {
+    background: white;
+    padding: 30px 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border-color: #2F8D46;
+}
+
+.company-logo {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.job-card h3 {
+    color: #2F8D46;
+    margin-bottom: 5px;
+    font-size: 1.3rem;
+}
+
+.job-card h4 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.job-card p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.job-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.job-tags span {
+    background: #f0f8ff;
+    color: #2F8D46;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Write Page Styles */
+.contribute-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.option-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-top: 5px solid #2F8D46;
+}
+
+.option-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.option-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.option-card h3 {
+    color: #2F8D46;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.option-card p {
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.contribute-btn {
+    background: linear-gradient(135deg, #2F8D46, #0F7B0F);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 15px rgba(47, 141, 70, 0.3);
+}
+
+.contribute-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(47, 141, 70, 0.4);
+}
+
+/* Responsive Design for New Pages */
+@media (max-width: 768px) {
+    .practice-hero h1, .interview-hero h1, .jobs-hero h1, .write-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .problems-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .interview-grid, .jobs-grid, .contribute-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .difficulty-tabs {
+        justify-content: center;
+    }
+    
+    .tab-btn {
+        flex: 1;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .practice-hero, .interview-hero, .jobs-hero, .write-hero {
+        padding: 100px 0 60px;
+    }
+    
+    .practice-hero h1, .interview-hero h1, .jobs-hero h1, .write-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .problem-card, .interview-card, .job-card, .option-card {
+        padding: 25px 20px;
+    }
+    
+    .problem-card h3 {
+        margin-right: 60px;
+    }
+    
+    .problem-stats {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .job-tags {
+        flex-direction: column;
+        align-items: center;
+    }
+}
