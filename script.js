@@ -236,3 +236,203 @@ const fadeInStyles = `
 const fadeInStyleSheet = document.createElement('style');
 fadeInStyleSheet.textContent = fadeInStyles;
 document.head.appendChild(fadeInStyleSheet);
+
+// Performance optimization - Lazy loading
+function initializeLazyLoading() {
+    const images = document.querySelectorAll('img');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.classList.add('loaded');
+                observer.unobserve(img);
+            }
+        });
+    });
+
+    images.forEach(img => {
+        img.classList.add('lazy-image');
+        imageObserver.observe(img);
+    });
+}
+
+// Filter and Sort functionality
+const articles = [
+    {
+        title: 'Complete Guide to Data Structures',
+        topic: 'data-structures',
+        difficulty: 'intermediate',
+        readTime: 8,
+        date: '2025-10-09',
+        popularity: 120,
+        element: null
+    },
+    {
+        title: 'Algorithm Design Patterns',
+        topic: 'algorithms',
+        difficulty: 'advanced',
+        readTime: 12,
+        date: '2025-10-08',
+        popularity: 95,
+        element: null
+    },
+    {
+        title: 'Technical Interview Preparation',
+        topic: 'interview',
+        difficulty: 'intermediate',
+        readTime: 10,
+        date: '2025-10-07',
+        popularity: 180,
+        element: null
+    },
+    {
+        title: 'Python Programming Fundamentals',
+        topic: 'python',
+        difficulty: 'beginner',
+        readTime: 15,
+        date: '2025-10-06',
+        popularity: 200,
+        element: null
+    },
+    {
+        title: 'Modern Web Development',
+        topic: 'web-development',
+        difficulty: 'intermediate',
+        readTime: 20,
+        date: '2025-10-05',
+        popularity: 150,
+        element: null
+    },
+    {
+        title: 'Introduction to Machine Learning',
+        topic: 'machine-learning',
+        difficulty: 'advanced',
+        readTime: 18,
+        date: '2025-10-04',
+        popularity: 175,
+        element: null
+    }
+];
+
+function initializeFilterSort() {
+    const articlesGrid = document.getElementById('articlesGrid');
+    const articleElements = articlesGrid ? articlesGrid.querySelectorAll('.article-card') : [];
+    
+    // Map article elements to data
+    articles.forEach((article, index) => {
+        if (articleElements[index]) {
+            article.element = articleElements[index];
+        }
+    });
+
+    // Add event listeners
+    const difficultyFilter = document.getElementById('difficultyFilter');
+    const topicFilter = document.getElementById('topicFilter');
+    const sortButtons = document.querySelectorAll('.sort-btn');
+
+    if (difficultyFilter) {
+        difficultyFilter.addEventListener('change', applyFilters);
+    }
+    
+    if (topicFilter) {
+        topicFilter.addEventListener('change', applyFilters);
+    }
+
+    sortButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            sortButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            applyFilters();
+        });
+    });
+}
+
+function applyFilters() {
+    const difficultyFilter = document.getElementById('difficultyFilter');
+    const topicFilter = document.getElementById('topicFilter');
+    const activeSort = document.querySelector('.sort-btn.active');
+    
+    const difficulty = difficultyFilter ? difficultyFilter.value : 'all';
+    const topic = topicFilter ? topicFilter.value : 'all';
+    const sortBy = activeSort ? activeSort.dataset.sort : 'date';
+
+    // Filter articles
+    let filteredArticles = articles.filter(article => {
+        const matchesDifficulty = difficulty === 'all' || article.difficulty === difficulty;
+        const matchesTopic = topic === 'all' || article.topic === topic;
+        return matchesDifficulty && matchesTopic;
+    });
+
+    // Sort articles
+    filteredArticles.sort((a, b) => {
+        switch(sortBy) {
+            case 'popular':
+                return b.popularity - a.popularity;
+            case 'read-time':
+                return a.readTime - b.readTime;
+            case 'date':
+            default:
+                return new Date(b.date) - new Date(a.date);
+        }
+    });
+
+    // Show/hide articles with animation
+    articles.forEach(article => {
+        if (article.element) {
+            const shouldShow = filteredArticles.includes(article);
+            if (shouldShow) {
+                article.element.style.display = 'block';
+                article.element.style.animation = 'fadeIn 0.5s ease';
+            } else {
+                article.element.style.display = 'none';
+            }
+        }
+    });
+
+    // Reorder visible articles
+    const articlesGrid = document.getElementById('articlesGrid');
+    if (articlesGrid) {
+        filteredArticles.forEach((article, index) => {
+            if (article.element) {
+                article.element.style.order = index;
+            }
+        });
+    }
+}
+
+// Enhanced mobile hamburger functionality
+function initializeMobileMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (navMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close menu when clicking on a link
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    }
+}
+
+// Initialize all enhancements
+document.addEventListener('DOMContentLoaded', function() {
+    initializeLazyLoading();
+    initializeFilterSort();
+    initializeMobileMenu();
+});

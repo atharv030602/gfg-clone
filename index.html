@@ -76,7 +76,35 @@
         <div class="container">
             <section class="articles-section">
                 <h2>Latest Articles & Tutorials</h2>
-                <div class="articles-grid">
+                
+                <div class="content-controls">
+                    <div class="filter-section">
+                        <label class="filter-label">Filter by:</label>
+                        <select class="filter-select" id="difficultyFilter">
+                            <option value="all">All Levels</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                        
+                        <select class="filter-select" id="topicFilter">
+                            <option value="all">All Topics</option>
+                            <option value="data-structures">Data Structures</option>
+                            <option value="algorithms">Algorithms</option>
+                            <option value="web-development">Web Development</option>
+                            <option value="python">Python</option>
+                            <option value="machine-learning">Machine Learning</option>
+                        </select>
+                    </div>
+                    
+                    <div class="sort-buttons">
+                        <button class="sort-btn active" data-sort="date">📅 Latest</button>
+                        <button class="sort-btn" data-sort="popular">🔥 Popular</button>
+                        <button class="sort-btn" data-sort="read-time">⏱️ Quick Read</button>
+                    </div>
+                </div>
+                
+                <div class="articles-grid" id="articlesGrid">
                     <article class="article-card">
                         <div class="article-image">
                             <img src="https://via.placeholder.com/300x200/E8F5E8/0F7B0F?text=Data+Structures" alt="Data Structures">
