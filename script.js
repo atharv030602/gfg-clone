@@ -1,6 +1,12 @@
 // GeeksforGeeks Clone JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize theme
+    initializeTheme();
+    
+    // Initialize search functionality
+    initializeSearch();
+    
     // Hamburger Menu Toggle
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -145,3 +151,88 @@ const mobileMenuStyles = `
 const styleSheet = document.createElement('style');
 styleSheet.textContent = mobileMenuStyles;
 document.head.appendChild(styleSheet);
+
+// Theme functionality
+function initializeTheme() {
+    const themeToggle = document.getElementById('themeToggle');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    
+    // Set initial theme
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeIcon(currentTheme);
+    
+    // Theme toggle event listener
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+    }
+}
+
+function updateThemeIcon(theme) {
+    const themeIcon = document.querySelector('.theme-icon');
+    if (themeIcon) {
+        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+}
+
+// Search functionality
+function initializeSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.querySelector('.search-btn');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            filterArticles(query);
+        });
+        
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const query = e.target.value.toLowerCase();
+                filterArticles(query);
+            }
+        });
+    }
+    
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function() {
+            const query = searchInput ? searchInput.value.toLowerCase() : '';
+            filterArticles(query);
+        });
+    }
+}
+
+function filterArticles(query) {
+    const articles = document.querySelectorAll('.article-card');
+    
+    articles.forEach(article => {
+        const title = article.querySelector('h3') ? article.querySelector('h3').textContent.toLowerCase() : '';
+        const content = article.querySelector('p') ? article.querySelector('p').textContent.toLowerCase() : '';
+        
+        if (query === '' || title.includes(query) || content.includes(query)) {
+            article.style.display = 'block';
+            article.style.animation = 'fadeIn 0.5s ease';
+        } else {
+            article.style.display = 'none';
+        }
+    });
+}
+
+// Add fade in animation
+const fadeInStyles = `
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+`;
+
+const fadeInStyleSheet = document.createElement('style');
+fadeInStyleSheet.textContent = fadeInStyles;
+document.head.appendChild(fadeInStyleSheet);
