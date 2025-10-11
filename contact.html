@@ -436,64 +436,70 @@
     </div>
 
     <script src="script.js"></script>
-    <script>
+    <script type="module">
+        import { firebaseHelpers, fallbackToLocalStorage, isFirebaseConfigured } from './firebase-config.js';
+        
         document.addEventListener('DOMContentLoaded', function() {
             const contactForm = document.getElementById('contactForm');
             const newsletterForm = document.getElementById('newsletterForm');
             
-            // Contact form submission
-            contactForm.addEventListener('submit', function(e) {
+            // Contact form submission with Firebase
+            contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const formData = new FormData(contactForm);
                 const data = Object.fromEntries(formData);
                 
-                // Simulate form submission
-                showMessage('success-message', 'Thank you for your message! We\'ll get back to you within 24 hours.');
-                
-                // Save to localStorage for demo
-                const contacts = JSON.parse(localStorage.getItem('contactMessages')) || [];
-                contacts.push({
-                    ...data,
-                    timestamp: new Date().toISOString(),
-                    id: Date.now()
-                });
-                localStorage.setItem('contactMessages', JSON.stringify(contacts));
-                
-                // Reset form
-                contactForm.reset();
-                
-                // Update user activity if logged in
-                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                if (currentUser) {
-                    updateActivity('Sent contact message');
+                try {
+                    // Try Firebase first, fallback to localStorage
+                    if (isFirebaseConfigured()) {
+                        await firebaseHelpers.saveContactMessage(data);
+                        showMessage('success-message', 'Thank you for your message! We\'ll get back to you within 24 hours. 🚀');
+                    } else {
+                        await fallbackToLocalStorage.saveContactMessage(data);
+                        showMessage('success-message', 'Thank you for your message! We\'ll get back to you within 24 hours. (Saved locally)');
+                    }
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Update user activity if logged in
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                    if (currentUser) {
+                        updateActivity('Sent contact message');
+                    }
+                } catch (error) {
+                    console.error('Error saving contact message:', error);
+                    showMessage('error-message', 'Sorry, there was an error sending your message. Please try again.');
                 }
             });
             
-            // Newsletter form submission
-            newsletterForm.addEventListener('submit', function(e) {
+            // Newsletter form submission with Firebase
+            newsletterForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const email = document.getElementById('newsletterEmail').value;
                 
-                // Simulate newsletter subscription
-                showMessage('newsletter-success', 'Successfully subscribed to our newsletter! Welcome to the community 🎉');
-                
-                // Save to localStorage for demo
-                const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers')) || [];
-                if (!subscribers.find(sub => sub.email === email)) {
-                    subscribers.push({
-                        email: email,
-                        timestamp: new Date().toISOString(),
-                        status: 'active'
-                    });
-                    localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
-                } else {
-                    showMessage('newsletter-error', 'This email is already subscribed to our newsletter.');
+                try {
+                    // Try Firebase first, fallback to localStorage
+                    if (isFirebaseConfigured()) {
+                        await firebaseHelpers.saveNewsletterSubscriber(email);
+                        showMessage('newsletter-success', 'Successfully subscribed to our newsletter! Welcome to the community 🎉');
+                    } else {
+                        await fallbackToLocalStorage.saveNewsletterSubscriber(email);
+                        showMessage('newsletter-success', 'Successfully subscribed to our newsletter! Welcome to the community 🎉 (Saved locally)');
+                    }
+                    
+                    // Reset form
+                    newsletterForm.reset();
+                } catch (error) {
+                    console.error('Error saving newsletter subscriber:', error);
+                    if (error.message.includes('already subscribed')) {
+                        showMessage('newsletter-error', 'This email is already subscribed to our newsletter.');
+                    } else {
+                        showMessage('newsletter-error', 'Sorry, there was an error subscribing. Please try again.');
+                    }
                 }
-                
-                // Reset form
-                newsletterForm.reset();
             });
             
             function showMessage(elementId, message) {

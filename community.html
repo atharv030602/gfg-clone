@@ -585,6 +585,13 @@
     </div>
 
     <script src="script.js"></script>
+    <script type="module">
+        import { firebaseHelpers, fallbackToLocalStorage, isFirebaseConfigured } from './firebase-config.js';
+        
+        // Make Firebase helpers available globally for this page
+        window.firebaseHelpers = firebaseHelpers;
+        window.isFirebaseConfigured = isFirebaseConfigured;
+    </script>
     <script>
         // Sample forum posts data
         const samplePosts = [
