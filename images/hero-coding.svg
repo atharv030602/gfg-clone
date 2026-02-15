@@ -1,0 +1,34 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#E8F5E8"/>
+  
+  <!-- Laptop -->
+  <rect x="150" y="150" width="300" height="180" rx="10" fill="#2F8D46"/>
+  <rect x="160" y="160" width="280" height="140" fill="#1a1a1a"/>
+  
+  <!-- Code lines -->
+  <rect x="180" y="180" width="100" height="8" rx="4" fill="#4CAF50"/>
+  <rect x="290" y="180" width="60" height="8" rx="4" fill="#81C784"/>
+  
+  <rect x="180" y="200" width="80" height="8" rx="4" fill="#66BB6A"/>
+  <rect x="270" y="200" width="80" height="8" rx="4" fill="#4CAF50"/>
+  
+  <rect x="180" y="220" width="120" height="8" rx="4" fill="#81C784"/>
+  <rect x="310" y="220" width="40" height="8" rx="4" fill="#66BB6A"/>
+  
+  <rect x="180" y="240" width="90" height="8" rx="4" fill="#4CAF50"/>
+  <rect x="280" y="240" width="70" height="8" rx="4" fill="#81C784"/>
+  
+  <rect x="180" y="260" width="110" height="8" rx="4" fill="#66BB6A"/>
+  
+  <!-- Laptop base -->
+  <path d="M 120 330 L 480 330 L 500 350 L 100 350 Z" fill="#2F8D46"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="80" cy="80" r="30" fill="#0F7B0F" opacity="0.3"/>
+  <circle cx="520" cy="320" r="40" fill="#0F7B0F" opacity="0.2"/>
+  <circle cx="550" cy="100" r="25" fill="#2F8D46" opacity="0.4"/>
+  
+  <!-- Text -->
+  <text x="300" y="380" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#0F7B0F" text-anchor="middle">Coding Journey</text>
+</svg>

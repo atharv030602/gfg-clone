@@ -1,0 +1,17 @@
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#E8F5E8"/>
+  <circle cx="150" cy="40" r="20" fill="#2F8D46"/>
+  <line x1="150" y1="60" x2="100" y2="90" stroke="#0F7B0F" stroke-width="3"/>
+  <line x1="150" y1="60" x2="200" y2="90" stroke="#0F7B0F" stroke-width="3"/>
+  <circle cx="100" cy="100" r="18" fill="#4CAF50"/>
+  <circle cx="200" cy="100" r="18" fill="#4CAF50"/>
+  <line x1="100" y1="118" x2="70" y2="140" stroke="#0F7B0F" stroke-width="2"/>
+  <line x1="100" y1="118" x2="130" y2="140" stroke="#0F7B0F" stroke-width="2"/>
+  <line x1="200" y1="118" x2="170" y2="140" stroke="#0F7B0F" stroke-width="2"/>
+  <line x1="200" y1="118" x2="230" y2="140" stroke="#0F7B0F" stroke-width="2"/>
+  <circle cx="70" cy="150" r="15" fill="#66BB6A"/>
+  <circle cx="130" cy="150" r="15" fill="#66BB6A"/>
+  <circle cx="170" cy="150" r="15" fill="#66BB6A"/>
+  <circle cx="230" cy="150" r="15" fill="#66BB6A"/>
+  <text x="150" y="190" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#0F7B0F" text-anchor="middle">Data Structures</text>
+</svg>

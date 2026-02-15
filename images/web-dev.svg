@@ -1,0 +1,15 @@
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#E8F5E8"/>
+  <rect x="40" y="40" width="220" height="130" rx="8" fill="#2F8D46"/>
+  <rect x="50" y="60" width="200" height="100" fill="#ffffff"/>
+  <rect x="60" y="70" width="80" height="35" fill="#4CAF50" rx="4"/>
+  <rect x="150" y="70" width="80" height="35" fill="#66BB6A" rx="4"/>
+  <rect x="60" y="115" width="170" height="8" fill="#E0E0E0" rx="2"/>
+  <rect x="60" y="130" width="150" height="8" fill="#E0E0E0" rx="2"/>
+  <circle cx="55" cy="50" r="4" fill="#ff5252"/>
+  <circle cx="67" cy="50" r="4" fill="#ffc107"/>
+  <circle cx="79" cy="50" r="4" fill="#4CAF50"/>
+  <text x="60" y="85" font-family="Courier, monospace" font-size="10" fill="#ffffff">&lt;html&gt;</text>
+  <text x="155" y="85" font-family="Courier, monospace" font-size="10" fill="#ffffff">&lt;div&gt;</text>
+  <text x="150" y="185" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#0F7B0F" text-anchor="middle">Web Development</text>
+</svg>

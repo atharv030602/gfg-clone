@@ -1,0 +1,16 @@
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#E8F5E8"/>
+  <rect x="80" y="40" width="140" height="100" rx="10" fill="#2F8D46"/>
+  <rect x="90" y="50" width="120" height="70" fill="#1a1a1a"/>
+  <rect x="100" y="60" width="40" height="6" rx="3" fill="#4CAF50"/>
+  <rect x="100" y="72" width="50" height="6" rx="3" fill="#66BB6A"/>
+  <rect x="100" y="84" width="35" height="6" rx="3" fill="#81C784"/>
+  <rect x="100" y="96" width="45" height="6" rx="3" fill="#4CAF50"/>
+  <circle cx="80" cy="100" r="25" fill="#66BB6A"/>
+  <circle cx="80" cy="95" r="8" fill="#E8F5E8"/>
+  <path d="M 70 110 Q 80 120 90 110" stroke="#E8F5E8" stroke-width="2" fill="none"/>
+  <circle cx="220" cy="100" r="25" fill="#66BB6A"/>
+  <circle cx="220" cy="95" r="8" fill="#E8F5E8"/>
+  <path d="M 210 110 Q 220 120 230 110" stroke="#E8F5E8" stroke-width="2" fill="none"/>
+  <text x="150" y="180" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#0F7B0F" text-anchor="middle">Interview Prep</text>
+</svg>

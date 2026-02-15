@@ -1,0 +1,13 @@
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#E8F5E8"/>
+  <rect x="40" y="80" width="50" height="80" fill="#2F8D46" rx="5"/>
+  <rect x="100" y="50" width="50" height="110" fill="#4CAF50" rx="5"/>
+  <rect x="160" y="30" width="50" height="130" fill="#66BB6A" rx="5"/>
+  <rect x="220" y="60" width="50" height="100" fill="#81C784" rx="5"/>
+  <path d="M 65 80 L 125 50 L 185 30 L 245 60" stroke="#0F7B0F" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="65" cy="80" r="6" fill="#0F7B0F"/>
+  <circle cx="125" cy="50" r="6" fill="#0F7B0F"/>
+  <circle cx="185" cy="30" r="6" fill="#0F7B0F"/>
+  <circle cx="245" cy="60" r="6" fill="#0F7B0F"/>
+  <text x="150" y="190" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#0F7B0F" text-anchor="middle">Algorithms</text>
+</svg>

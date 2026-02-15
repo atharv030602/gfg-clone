@@ -1,0 +1,21 @@
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#E8F5E8"/>
+  <circle cx="80" cy="60" r="18" fill="#2F8D46"/>
+  <circle cx="150" cy="40" r="18" fill="#2F8D46"/>
+  <circle cx="220" cy="60" r="18" fill="#2F8D46"/>
+  <circle cx="80" cy="100" r="18" fill="#4CAF50"/>
+  <circle cx="150" cy="100" r="18" fill="#4CAF50"/>
+  <circle cx="220" cy="100" r="18" fill="#4CAF50"/>
+  <circle cx="150" cy="140" r="20" fill="#66BB6A"/>
+  <line x1="80" y1="60" x2="150" y2="100" stroke="#0F7B0F" stroke-width="2" opacity="0.6"/>
+  <line x1="150" y1="40" x2="150" y2="100" stroke="#0F7B0F" stroke-width="2" opacity="0.6"/>
+  <line x1="220" y1="60" x2="150" y2="100" stroke="#0F7B0F" stroke-width="2" opacity="0.6"/>
+  <line x1="80" y1="100" x2="150" y2="140" stroke="#0F7B0F" stroke-width="3"/>
+  <line x1="150" y1="100" x2="150" y2="140" stroke="#0F7B0F" stroke-width="3"/>
+  <line x1="220" y1="100" x2="150" y2="140" stroke="#0F7B0F" stroke-width="3"/>
+  <circle cx="40" cy="100" r="12" fill="#81C784"/>
+  <circle cx="260" cy="100" r="12" fill="#81C784"/>
+  <line x1="40" y1="100" x2="80" y2="100" stroke="#0F7B0F" stroke-width="2" opacity="0.4"/>
+  <line x1="220" y1="100" x2="260" y2="100" stroke="#0F7B0F" stroke-width="2" opacity="0.4"/>
+  <text x="150" y="185" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#0F7B0F" text-anchor="middle">Machine Learning</text>
+</svg>
