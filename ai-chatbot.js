@@ -1,15 +1,25 @@
 // AI Chatbot functionality
-const API_URL = 'http://localhost:5000/api/ai/chat';
+// Set API base URL via `window.AI_API_URL` if needed (e.g. deployed backend URL).
+// Defaults to a relative route for same-origin deployments.
+const API_URL = (typeof window !== 'undefined' && window.AI_API_URL)
+    ? window.AI_API_URL
+    : '/api/ai/chat';
+
 let conversationHistory = [];
 let conversationId = null;
 
 // Toggle chat window
 function toggleChat() {
     const chatContainer = document.getElementById('chatContainer');
+    if (!chatContainer) return;
+
     chatContainer.classList.toggle('open');
-    
+
     if (chatContainer.classList.contains('open')) {
-        document.getElementById('chatInput').focus();
+        const input = document.getElementById('chatInput');
+        if (input) {
+            input.focus();
+        }
     }
 }
 
