@@ -598,6 +598,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeFilterSort();
     initializeMobileMenu();
     initializeProgressTracking();
+    initializeChatbot();
     
     // Performance optimizations
     document.querySelectorAll('.fade-in').forEach((el, i) => {
@@ -618,3 +619,115 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('🚀 GeeksforGeeks Clone initialized with optimizations!');
 });
+
+function initializeChatbot() {
+    const toggleBtn = document.getElementById('chatbot-toggle');
+    const chatbot = document.getElementById('chatbot');
+    const closeBtn = document.getElementById('chatbot-close');
+    const form = document.getElementById('chatbot-form');
+    const input = document.getElementById('chatbot-input');
+    const messagesEl = document.getElementById('chatbot-messages');
+
+    if (!toggleBtn || !chatbot || !closeBtn || !form || !input || !messagesEl) return;
+
+    const openChat = () => {
+        chatbot.classList.add('chatbot-open');
+        setTimeout(() => input.focus(), 0);
+    };
+
+    const closeChat = () => {
+        chatbot.classList.remove('chatbot-open');
+    };
+
+    toggleBtn.addEventListener('click', () => {
+        if (chatbot.classList.contains('chatbot-open')) closeChat();
+        else openChat();
+    });
+
+    closeBtn.addEventListener('click', closeChat);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeChat();
+    });
+
+    const appendMessage = ({ role, text }) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = `chatbot-message chatbot-message-${role}`;
+
+        const sender = document.createElement('div');
+        sender.className = 'chatbot-message-sender';
+        sender.textContent = role === 'user' ? 'You' : 'AI';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'chatbot-message-bubble';
+        bubble.textContent = text;
+
+        wrapper.appendChild(sender);
+        wrapper.appendChild(bubble);
+        messagesEl.appendChild(wrapper);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+
+    const getApiKey = () => localStorage.getItem('gemini_api_key') || '';
+
+    const ensureApiKey = () => {
+        let key = getApiKey();
+        if (key) return key;
+        key = window.prompt('Enter your Gemini API key (it will be stored in this browser).');
+        if (!key) return '';
+        localStorage.setItem('gemini_api_key', key.trim());
+        return key.trim();
+    };
+
+    const callGemini = async ({ apiKey, userText }) => {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ role: 'user', parts: [{ text: userText }] }],
+                generationConfig: {
+                    temperature: 0.6,
+                    maxOutputTokens: 512
+                }
+            })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+            const message = data?.error?.message || `Request failed (${res.status})`;
+            throw new Error(message);
+        }
+
+        const text =
+            data?.candidates?.[0]?.content?.parts?.map((p) => p.text).filter(Boolean).join('') ||
+            '';
+        return text || "I couldn't generate a response.";
+    };
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const userText = input.value.trim();
+        if (!userText) return;
+
+        appendMessage({ role: 'user', text: userText });
+        input.value = '';
+
+        const apiKey = ensureApiKey();
+        if (!apiKey) {
+            appendMessage({ role: 'ai', text: 'Missing API key. Please add one to continue.' });
+            return;
+        }
+
+        appendMessage({ role: 'ai', text: 'Thinking…' });
+        const thinkingNode = messagesEl.lastElementChild;
+
+        try {
+            const reply = await callGemini({ apiKey, userText });
+            if (thinkingNode) thinkingNode.querySelector('.chatbot-message-bubble').textContent = reply;
+        } catch (err) {
+            const msg = err instanceof Error ? err.message : 'Something went wrong.';
+            if (thinkingNode) thinkingNode.querySelector('.chatbot-message-bubble').textContent = `Error: ${msg}`;
+        }
+    });
+}

@@ -296,5 +296,49 @@
             }, 3000);
         });
     </script>
+
+    <!-- Gemini AI Chatbot -->
+    <button id="chatbot-toggle" class="chatbot-toggle" aria-label="Open AI assistant">
+        💬
+    </button>
+    
+    <div id="chatbot" class="chatbot" aria-live="polite" aria-label="Gemini AI chatbot">
+        <div class="chatbot-header">
+            <div>
+                <span class="chatbot-title">AI Assistant</span>
+                <span class="chatbot-subtitle">Powered by Gemini</span>
+            </div>
+            <button id="chatbot-close" class="chatbot-close" aria-label="Close chat">
+                ✕
+            </button>
+        </div>
+
+        <div id="chatbot-messages" class="chatbot-messages">
+            <div class="chatbot-message chatbot-message-ai">
+                <div class="chatbot-message-sender">AI</div>
+                <div class="chatbot-message-bubble">
+                    Hi! Ask me anything about data structures, algorithms, or programming.
+                </div>
+            </div>
+        </div>
+
+        <form id="chatbot-form" class="chatbot-input-area">
+            <input
+                id="chatbot-input"
+                type="text"
+                autocomplete="off"
+                placeholder="Ask a coding or DSA question..."
+                aria-label="Type your message"
+            />
+            <button type="submit" class="chatbot-send-btn">
+                Send
+            </button>
+        </form>
+
+        <div class="chatbot-footer-note">
+            Responses are AI-generated. Please verify important information.
+        </div>
+    </div>
+
 </body>
 </html>
