@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.querySelector('.navbar');
     
     window.addEventListener('scroll', function() {
+        if (!navbar) return;
         if (window.scrollY > 100) {
             navbar.style.background = 'linear-gradient(135deg, #2F8D46, #0F7B0F)';
             navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
@@ -95,6 +96,9 @@ document.addEventListener('DOMContentLoaded', function() {
             navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
         }
     });
+
+    // Ensure chatbot is available on all pages
+    initializeGlobalChatbot();
 });
 
 // Add CSS for mobile menu
@@ -254,6 +258,105 @@ function initializeLazyLoading() {
         img.classList.add('lazy-image');
         imageObserver.observe(img);
     });
+}
+
+// Global chatbot injection (works across all pages)
+function initializeGlobalChatbot() {
+    if (document.getElementById('chatContainer')) {
+        // Chatbot already exists on this page (e.g., AI Assistant page)
+        return;
+    }
+
+    const widget = document.createElement('div');
+    widget.className = 'ai-chat-widget';
+    widget.innerHTML = `
+        <button class="chat-toggle-btn" id="chatToggle" type="button" aria-label="Open AI assistant">
+            💬
+        </button>
+
+        <div class="chat-container" id="chatContainer" aria-live="polite" aria-label="Gemini AI chatbot">
+            <div class="chat-header">
+                <h3>
+                    <span class="status-indicator" aria-hidden="true"></span>
+                    AI Coding Assistant
+                </h3>
+                <button class="chat-close-btn" type="button" aria-label="Close chat">×</button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-message">
+                    <h4>👋 Hi there!</h4>
+                    <p>Ask me anything about data structures, algorithms, or programming.</p>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" type="button" data-suggest="Explain binary search algorithm">📚 Explain binary search</button>
+                        <button class="quick-action-btn" type="button" data-suggest="What are the common data structures?">🗂️ Common data structures</button>
+                        <button class="quick-action-btn" type="button" data-suggest="Tips for coding interviews">💼 Interview tips</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <input
+                    id="chatInput"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Ask a coding question..."
+                    aria-label="Type your message"
+                />
+                <button type="button" id="sendBtn" class="send-btn" aria-label="Send message">
+                    ➤
+                </button>
+            </div>
+
+            <div class="chatbot-footer-note">
+                Responses are AI-generated. Please verify important information.
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(widget);
+
+    // Add click handlers once DOM is updated
+    const toggleButton = document.getElementById('chatToggle');
+    const closeButton = widget.querySelector('.chat-close-btn');
+
+    function safeToggle() {
+        if (typeof toggleChat === 'function') {
+            toggleChat();
+        }
+    }
+
+    function safeSendQuick(message) {
+        if (typeof sendQuickMessage === 'function') {
+            sendQuickMessage(message);
+        }
+    }
+
+    if (toggleButton) {
+        toggleButton.addEventListener('click', safeToggle);
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener('click', safeToggle);
+    }
+
+    // Quick suggestion buttons
+    widget.querySelectorAll('.quick-action-btn').forEach(btn => {
+        btn.addEventListener('click', (event) => {
+            const msg = event.currentTarget.getAttribute('data-suggest');
+            if (msg) {
+                safeSendQuick(msg);
+            }
+        });
+    });
+
+    // Load chatbot logic if not already loaded
+    if (!document.querySelector('script[src="ai-chatbot.js"]')) {
+        const script = document.createElement('script');
+        script.src = 'ai-chatbot.js';
+        script.defer = true;
+        document.body.appendChild(script);
+    }
 }
 
 // Filter and Sort functionality
