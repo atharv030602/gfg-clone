@@ -430,9 +430,191 @@ function initializeMobileMenu() {
     }
 }
 
+// Performance Optimization Class
+class PerformanceOptimizer {
+    constructor() {
+        this.cache = new Map();
+        this.init();
+    }
+
+    init() {
+        this.initContentCaching();
+        this.preloadCriticalResources();
+        this.monitorPerformance();
+    }
+
+    // Content Caching System
+    initContentCaching() {
+        this.cacheAPI = {
+            set: (key, data, expiry = 300000) => {
+                const item = { data, timestamp: Date.now(), expiry };
+                try {
+                    localStorage.setItem(`gfg_${key}`, JSON.stringify(item));
+                    this.cache.set(key, data);
+                } catch (e) {
+                    console.warn('LocalStorage full, using memory cache only');
+                    this.cache.set(key, data);
+                }
+            },
+
+            get: (key) => {
+                if (this.cache.has(key)) return this.cache.get(key);
+                
+                try {
+                    const item = localStorage.getItem(`gfg_${key}`);
+                    if (!item) return null;
+                    
+                    const parsed = JSON.parse(item);
+                    if (Date.now() - parsed.timestamp > parsed.expiry) {
+                        localStorage.removeItem(`gfg_${key}`);
+                        return null;
+                    }
+                    
+                    this.cache.set(key, parsed.data);
+                    return parsed.data;
+                } catch (e) {
+                    return null;
+                }
+            },
+
+            clear: () => {
+                this.cache.clear();
+                Object.keys(localStorage).forEach(key => {
+                    if (key.startsWith('gfg_')) localStorage.removeItem(key);
+                });
+            }
+        };
+    }
+
+    // Preload Critical Resources
+    preloadCriticalResources() {
+        const resources = [{ href: 'styles.css', as: 'style' }];
+        
+        resources.forEach(resource => {
+            if (!document.querySelector(`link[href="${resource.href}"]`)) {
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.href = resource.href;
+                link.as = resource.as;
+                document.head.appendChild(link);
+            }
+        });
+    }
+
+    // Performance Monitoring
+    monitorPerformance() {
+        if ('performance' in window) {
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    const perfData = performance.getEntriesByType('navigation')[0];
+                    const loadTime = perfData.loadEventEnd - perfData.fetchStart;
+                    
+                    console.log('📊 Performance:', {
+                        'Load Time': `${loadTime}ms`,
+                        'DOM Time': `${perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart}ms`
+                    });
+                    
+                    if (loadTime > 3000) {
+                        console.warn('⚠️ Slow page load detected');
+                    }
+                }, 0);
+            });
+        }
+    }
+
+    // Utility Functions
+    static debounce(func, delay) {
+        let timeoutId;
+        return (...args) => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    static throttle(func, delay) {
+        let lastCall = 0;
+        return (...args) => {
+            const now = Date.now();
+            if (now - lastCall >= delay) {
+                lastCall = now;
+                func.apply(this, args);
+            }
+        };
+    }
+}
+
+// Initialize Performance Optimizer
+const performanceOptimizer = new PerformanceOptimizer();
+
+// Enhanced Search with Performance
+function enhancedSearch(query) {
+    const cacheKey = `search_${query.toLowerCase()}`;
+    const cached = performanceOptimizer.cacheAPI.get(cacheKey);
+    
+    if (cached) {
+        displaySearchResults(cached);
+        return;
+    }
+    
+    // Show loading
+    const searchBtn = document.querySelector('.search-btn');
+    if (searchBtn) {
+        searchBtn.innerHTML = '<div class="pulse-loader"><div class="pulse-dot"></div></div>';
+    }
+    
+    // Simulate API call
+    setTimeout(() => {
+        const results = [
+            { title: `${query} Tutorial`, type: 'article' },
+            { title: `${query} Practice`, type: 'practice' }
+        ];
+        
+        performanceOptimizer.cacheAPI.set(cacheKey, results, 600000);
+        displaySearchResults(results);
+        
+        if (searchBtn) searchBtn.innerHTML = '🔍';
+    }, 300);
+}
+
+function displaySearchResults(results) {
+    console.log('🔍 Results:', results);
+}
+
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('✅ SW registered'))
+            .catch(err => console.log('❌ SW failed'));
+    });
+}
+
 // Initialize all enhancements
 document.addEventListener('DOMContentLoaded', function() {
+    // Core functionality
+    initializeTheme();
+    initializeSearch();
     initializeLazyLoading();
     initializeFilterSort();
     initializeMobileMenu();
+    initializeProgressTracking();
+    
+    // Performance optimizations
+    document.querySelectorAll('.fade-in').forEach((el, i) => {
+        el.style.animationDelay = `${i * 0.1}s`;
+    });
+    
+    // Clean up old cache
+    setInterval(() => {
+        const oldKeys = Object.keys(localStorage).filter(key => {
+            if (!key.startsWith('gfg_')) return false;
+            try {
+                const item = JSON.parse(localStorage.getItem(key));
+                return Date.now() - item.timestamp > item.expiry;
+            } catch { return true; }
+        });
+        oldKeys.forEach(key => localStorage.removeItem(key));
+    }, 300000);
+    
+    console.log('🚀 GeeksforGeeks Clone initialized with optimizations!');
 });

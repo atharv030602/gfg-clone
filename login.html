@@ -347,23 +347,26 @@
             });
 
             // Login form submission
-            loginForm.addEventListener('submit', function(e) {
+            loginForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 const email = document.getElementById('loginEmail').value;
                 const password = document.getElementById('loginPassword').value;
                 
-                if (authenticateUser(email, password)) {
-                    showSuccess('Login successful! Redirecting...');
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1500);
-                } else {
-                    showError('Invalid email or password. Please try again.');
+                const submitButton = this.querySelector('.form-button');
+                const originalText = submitButton.textContent;
+                submitButton.disabled = true;
+                submitButton.textContent = 'Logging in...';
+                
+                try {
+                    await authenticateUser(email, password);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
                 }
             });
 
             // Signup form submission
-            signupForm.addEventListener('submit', function(e) {
+            signupForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 const name = document.getElementById('signupName').value;
                 const email = document.getElementById('signupEmail').value;
@@ -380,71 +383,102 @@
                     return;
                 }
                 
-                if (registerUser(name, email, password)) {
-                    showSuccess('Account created successfully! You can now login.');
-                    // Switch to login tab
-                    document.querySelector('[data-tab="login"]').click();
-                    setTimeout(() => {
-                        document.getElementById('loginEmail').value = email;
-                    }, 500);
-                } else {
-                    showError('Email already exists. Please use a different email.');
+                const submitButton = this.querySelector('.form-button');
+                const originalText = submitButton.textContent;
+                submitButton.disabled = true;
+                submitButton.textContent = 'Creating Account...';
+                
+                try {
+                    await registerUser(name, email, password);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
                 }
             });
 
             // Social login buttons
             document.getElementById('googleLogin').addEventListener('click', function() {
-                showError('Social login not available in demo. Please use email/password.');
+                window.location.href = '/api/auth/google';
             });
 
             document.getElementById('githubLogin').addEventListener('click', function() {
-                showError('Social login not available in demo. Please use email/password.');
+                window.location.href = '/api/auth/github';
             });
 
             // Forgot password
             document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
                 e.preventDefault();
-                showError('Password reset not available in demo. Use: demo@example.com / password');
+                const email = document.getElementById('loginEmail').value;
+                
+                // Redirect to dedicated forgot password page with email pre-filled
+                if (email) {
+                    window.location.href = `forgot-password.html?email=${encodeURIComponent(email)}`;
+                } else {
+                    window.location.href = 'forgot-password.html';
+                }
             });
 
-            function authenticateUser(email, password) {
-                const users = JSON.parse(localStorage.getItem('users')) || [];
-                const user = users.find(u => u.email === email && u.password === password);
-                
-                if (user) {
-                    localStorage.setItem('currentUser', JSON.stringify({
-                        name: user.name,
-                        email: user.email,
-                        loginTime: new Date().toISOString()
-                    }));
-                    return true;
+            async function authenticateUser(email, password) {
+                try {
+                    const response = await fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email, password })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        // Store tokens
+                        localStorage.setItem('accessToken', data.accessToken);
+                        localStorage.setItem('refreshToken', data.refreshToken);
+                        localStorage.setItem('currentUser', JSON.stringify(data.user));
+                        
+                        showSuccess('Login successful! Redirecting...');
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 1500);
+                    } else {
+                        showError(data.error || 'Login failed. Please check your credentials.');
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    showError('Network error. Please check your connection.');
                 }
-                
-                // Demo account for testing
-                if (email === 'demo@example.com' && password === 'password') {
-                    localStorage.setItem('currentUser', JSON.stringify({
-                        name: 'Demo User',
-                        email: 'demo@example.com',
-                        loginTime: new Date().toISOString()
-                    }));
-                    return true;
-                }
-                
-                return false;
             }
 
-            function registerUser(name, email, password) {
-                const users = JSON.parse(localStorage.getItem('users')) || [];
-                
-                // Check if user already exists
-                if (users.find(u => u.email === email)) {
-                    return false;
+            async function registerUser(name, email, password) {
+                try {
+                    const response = await fetch('/api/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            displayName: name, 
+                            email, 
+                            password 
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        showSuccess('Account created! Please check your email to verify your account.');
+                        // Switch to login tab
+                        document.querySelector('[data-tab="login"]').click();
+                        setTimeout(() => {
+                            document.getElementById('loginEmail').value = email;
+                        }, 500);
+                    } else {
+                        showError(data.error || 'Registration failed. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    showError('Network error. Please check your connection.');
                 }
-                
-                // Add new user
-                users.push({ name, email, password });
-                localStorage.setItem('users', JSON.stringify(users));
-                return true;
             }
 
             function showError(message) {

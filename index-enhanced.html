@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn Data Structures, Algorithms, and Programming with interactive tutorials and practice problems">
+    <meta name="theme-color" content="#2F8D46">
+    <title>GeeksforGeeks Clone - Learn, Practice, Excel</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMEY3QjBGIi8+PHRleHQgeD0iMjAiIHk9IjI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNiI+R0ZHPC90ZXh0Pjwvc3ZnPg==">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="hero-enhanced.css">
+    <link rel="stylesheet" href="features-enhanced.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" class="logo-svg">
+                    <rect width="40" height="40" rx="8" fill="#0F7B0F"/>
+                    <text x="20" y="28" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-weight="bold" font-size="16">GFG</text>
+                </svg>
+                <span class="logo-text">GeeksforGeeks</span>
+            </div>
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index-enhanced.html" class="active">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="practice.html">Practice</a></li>
+                    <li><a href="interview.html">Interview</a></li>
+                    <li><a href="ai-chatbot.html">AI Assistant</a></li>
+                </ul>
+            </nav>
+            <div class="nav-controls">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search..." class="search-input">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Enhanced Hero Section -->
+    <section class="hero-enhanced">
+        <!-- Floating Particles -->
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <!-- Decorative Elements -->
+        <div class="hero-decoration decoration-1"></div>
+        <div class="hero-decoration decoration-2"></div>
+        
+        <div class="hero-content">
+            <div class="hero-text-enhanced">
+                <h1>Master Coding Skills & Ace Interviews</h1>
+                <p>Join thousands of learners mastering data structures, algorithms, and programming through interactive tutorials and real-world practice.</p>
+                <div class="hero-cta-group">
+                    <button class="cta-primary" onclick="window.location.href='courses.html'">
+                        🚀 Start Learning
+                    </button>
+                    <button class="cta-secondary" onclick="window.location.href='practice.html'">
+                        💻 Practice Now
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/hero-coding.svg" alt="Coding Journey" style="max-width: 100%; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+            </div>
+        </div>
+        
+        <!-- Statistics Section -->
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <span class="stat-number" data-target="500">0</span>+
+                    <div class="stat-label">Tutorials</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💻</div>
+                    <span class="stat-number" data-target="1000">0</span>+
+                    <div class="stat-label">Practice Problems</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <span class="stat-number" data-target="50000">0</span>+
+                    <div class="stat-label">Active Learners</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <span class="stat-number" data-target="98">0</span>%
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Choose Us?</h2>
+            <p class="section-subtitle">Everything you need to excel in your coding journey</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Interactive Learning</h3>
+                    <p>Hands-on coding exercises with instant feedback and AI-powered assistance</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Track Progress</h3>
+                    <p>Monitor your learning journey with detailed analytics and achievements</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Compete & Win</h3>
+                    <p>Participate in coding challenges and competitions with rewards</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Community Support</h3>
+                    <p>Join a vibrant community of learners and expert mentors</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3>Interview Prep</h3>
+                    <p>Comprehensive interview questions and company-specific guides</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Assistant</h3>
+                    <p>Get instant help from our AI coding assistant available 24/7</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">Success Stories</h2>
+            <p class="section-subtitle">Hear from our successful learners</p>
+            
+            <div class="testimonials-slider">
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"The structured learning path and practice problems helped me land my dream job at Google. Best platform for interview prep!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👨‍💻</div>
+                        <div class="author-info">
+                            <h4>Rahul Sharma</h4>
+                            <p>Software Engineer @ Google</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"From zero coding knowledge to confident developer in 6 months. The AI assistant made learning so much easier!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👩‍💻</div>
+                        <div class="author-info">
+                            <h4>Priya Patel</h4>
+                            <p>Full Stack Developer @ Microsoft</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"The best investment in my career. Clear explanations, challenging problems, and excellent community support."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👨‍💼</div>
+                        <div class="author-info">
+                            <h4>Arjun Singh</h4>
+                            <p>Backend Engineer @ Amazon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Topics -->
+    <section class="topics-section">
+        <div class="container">
+            <h2 class="section-title">Popular Topics</h2>
+            <div class="topics-grid">
+                <a href="#" class="topic-chip">Data Structures</a>
+                <a href="#" class="topic-chip">Algorithms</a>
+                <a href="#" class="topic-chip">Python</a>
+                <a href="#" class="topic-chip">JavaScript</a>
+                <a href="#" class="topic-chip">Java</a>
+                <a href="#" class="topic-chip">C++</a>
+                <a href="#" class="topic-chip">System Design</a>
+                <a href="#" class="topic-chip">Machine Learning</a>
+                <a href="#" class="topic-chip">Web Development</a>
+                <a href="#" class="topic-chip">Database</a>
+                <a href="#" class="topic-chip">DevOps</a>
+                <a href="#" class="topic-chip">Cloud Computing</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Start Your Journey?</h2>
+                <p>Join thousands of learners and take your coding skills to the next level</p>
+                <button class="cta-button-large" onclick="window.location.href='login.html'">
+                    Get Started Free →
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="#algorithms">Algorithms</a></li>
+                        <li><a href="#data-structures">Data Structures</a></li>
+                        <li><a href="#languages">Languages</a></li>
+                        <li><a href="interview.html">Interview Corner</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Practice</h4>
+                    <ul>
+                        <li><a href="practice.html">Coding Practice</a></li>
+                        <li><a href="#competitions">Competitions</a></li>
+                        <li><a href="#mock-tests">Mock Tests</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">📘</a>
+                        <a href="#" class="social-icon">🐦</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">💼</a>
+                        <a href="#" class="social-icon">📺</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GeeksforGeeks Clone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Chat Widget -->
+    <div class="ai-chat-widget">
+        <button class="chat-toggle-btn" onclick="window.location.href='ai-chatbot.html'">
+            🤖
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="enhanced-features.js"></script>
+</body>
+</html>
