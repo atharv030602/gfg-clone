@@ -19,6 +19,9 @@ const urlsToCache = [
 
 // Install event - cache resources
 self.addEventListener('install', function(event) {
+  // Activate the new service worker immediately
+  self.skipWaiting();
+
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function(cache) {
@@ -75,6 +78,9 @@ self.addEventListener('fetch', function(event) {
 
 // Activate event - cleanup old caches
 self.addEventListener('activate', function(event) {
+  // Take control of all clients immediately
+  self.clients.claim();
+
   const cacheWhitelist = [CACHE_NAME];
 
   event.waitUntil(
