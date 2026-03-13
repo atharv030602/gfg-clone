@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - GeeksforGeeks Clone</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .profile-container { margin-top: 70px; padding: 40px 20px; background: var(--bg-primary); min-height: calc(100vh - 70px); }
+        .profile-card { max-width: 600px; margin: 0 auto; background: var(--bg-secondary); border-radius: 16px; box-shadow: 0 10px 40px var(--shadow-light); border: 1px solid var(--border-color); overflow: hidden; }
+        .profile-header { background: var(--gradient-primary); padding: 40px 30px; text-align: center; color: white; }
+        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 15px; border: 3px solid white; overflow: hidden; }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-name { font-size: 1.5rem; margin-bottom: 4px; }
+        .profile-email { opacity: 0.8; font-size: 0.9rem; }
+        .profile-body { padding: 30px; }
+        .profile-section { margin-bottom: 24px; }
+        .profile-section h3 { color: var(--text-accent); margin-bottom: 12px; font-size: 1.1rem; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; margin-bottom: 6px; font-weight: 500; color: var(--text-primary); font-size: 0.9rem; }
+        .form-input { width: 100%; padding: 10px 14px; border: 2px solid var(--border-color); border-radius: 8px; background: var(--bg-primary); color: var(--text-primary); font-size: 14px; box-sizing: border-box; }
+        .form-input:focus { outline: none; border-color: var(--text-accent); }
+        .save-btn { background: var(--gradient-primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(47,141,70,0.3); }
+        .save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 16px; }
+        .stat-item { text-align: center; padding: 16px; background: var(--bg-tertiary); border-radius: 8px; }
+        .stat-item .number { font-size: 1.5rem; font-weight: bold; color: var(--text-accent); }
+        .stat-item .label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+        .message { padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; font-size: 0.9rem; display: none; }
+        .message.error { background: #fee; border: 1px solid #fcc; color: #c33; }
+        .message.success { background: #efe; border: 1px solid #cfc; color: #363; }
+        .danger-zone { border-top: 1px solid var(--border-color); padding-top: 20px; margin-top: 20px; }
+        .logout-btn { background: #dc3545; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo"><a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none"><svg width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" rx="8" fill="#0F7B0F"/><text x="20" y="28" text-anchor="middle" fill="white" font-family="Arial" font-weight="bold" font-size="16">GFG</text></svg><span class="logo-text">GeeksforGeeks</span></a></div>
+            <nav class="nav-menu"><ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html" class="active login-btn">Profile</a></li>
+            </ul></nav>
+            <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        </div>
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar" id="avatarDisplay">👤</div>
+                <div class="profile-name" id="nameDisplay">Loading...</div>
+                <div class="profile-email" id="emailDisplay"></div>
+            </div>
+            <div class="profile-body">
+                <div id="msg" class="message"></div>
+
+                <div class="profile-section">
+                    <h3>Your Stats</h3>
+                    <div class="stats-row">
+                        <div class="stat-item"><div class="number" id="coursesCount">0</div><div class="label">Courses</div></div>
+                        <div class="stat-item"><div class="number" id="lessonsCount">0</div><div class="label">Lessons Done</div></div>
+                        <div class="stat-item"><div class="number" id="favoritesCount">0</div><div class="label">Favorites</div></div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3>Edit Profile</h3>
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label class="form-label">Display Name</label>
+                            <input type="text" class="form-input" id="editName" required>
+                        </div>
+                        <button type="submit" class="save-btn" id="saveBtn">Save Changes</button>
+                    </form>
+                </div>
+
+                <div class="danger-zone">
+                    <button class="logout-btn" id="logoutBtn">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script type="module">
+        import { auth, isFirebaseConfigured } from '../database/firebase-config.js';
+        import { onAuthStateChanged, signOut, updateProfile } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+        import { getUserProfile, updateUserProfile, getProgress, getFavorites } from '../api/firebase-client.js';
+
+        function showMsg(text, type) {
+            const el = document.getElementById('msg');
+            el.textContent = text; el.className = `message ${type}`; el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 3000);
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) { window.location.href = 'login.html'; return; }
+
+            document.getElementById('nameDisplay').textContent = user.displayName || 'User';
+            document.getElementById('emailDisplay').textContent = user.email;
+            document.getElementById('editName').value = user.displayName || '';
+
+            if (user.photoURL) {
+                document.getElementById('avatarDisplay').innerHTML = `<img src="${user.photoURL}" alt="Avatar">`;
+            }
+
+            if (isFirebaseConfigured()) {
+                try {
+                    const progress = await getProgress(user.uid);
+                    const courseIds = Object.keys(progress);
+                    const totalLessons = courseIds.reduce((sum, id) => sum + (progress[id]?.completedLessons?.length || 0), 0);
+                    document.getElementById('coursesCount').textContent = courseIds.length;
+                    document.getElementById('lessonsCount').textContent = totalLessons;
+
+                    const favs = await getFavorites(user.uid);
+                    document.getElementById('favoritesCount').textContent = favs.length;
+                } catch (e) { console.warn('Could not load stats:', e); }
+            }
+        });
+
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('saveBtn');
+            btn.disabled = true; btn.textContent = 'Saving...';
+            try {
+                const name = document.getElementById('editName').value;
+                await updateProfile(auth.currentUser, { displayName: name });
+                if (isFirebaseConfigured()) {
+                    await updateUserProfile(auth.currentUser.uid, { displayName: name });
+                }
+                document.getElementById('nameDisplay').textContent = name;
+                showMsg('Profile updated!', 'success');
+            } catch (err) { showMsg(err.message, 'error'); }
+            btn.disabled = false; btn.textContent = 'Save Changes';
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = 'index.html';
+        });
+    </script>
+    <script type="module" src="../components/chatbot-widget.js"></script>
+</body>
+</html>

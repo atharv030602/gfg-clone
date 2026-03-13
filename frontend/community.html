@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Community forum for developers to discuss, ask questions, and share knowledge">
+    <meta name="theme-color" content="#2F8D46">
+    <title>Community Forum - GeeksforGeeks Clone</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMEY3QjBGIi8+PHRleHQgeD0iMjAiIHk9IjI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNiI+R0ZHPC90ZXh0Pjwvc3ZnPg==">
+    
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .community-container {
+            margin-top: 70px;
+            padding: 40px 0;
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .community-header {
+            background: var(--gradient-primary);
+            padding: 40px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .community-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .community-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .forum-controls {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .forum-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .tab-btn.active {
+            background: var(--text-accent);
+            color: white;
+            border-color: var(--text-accent);
+        }
+
+        .new-post-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .new-post-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(47, 141, 70, 0.3);
+        }
+
+        .forum-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            padding: 30px 0;
+        }
+
+        .posts-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px var(--shadow-light);
+            border: 1px solid var(--border-color);
+        }
+
+        .post-item {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .post-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .post-item:last-child {
+            border-bottom: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .author-info h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .author-info p {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .post-title {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .post-title:hover {
+            color: var(--text-accent);
+        }
+
+        .post-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: var(--bg-tertiary);
+            color: var(--text-accent);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .post-stats {
+            display: flex;
+            gap: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 20px var(--shadow-light);
+            border: 1px solid var(--border-color);
+        }
+
+        .sidebar-title {
+            color: var(--text-accent);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .category-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .category-item:hover {
+            background: var(--bg-tertiary);
+            margin: 0 -10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 6px;
+        }
+
+        .category-item:last-child {
+            border-bottom: none;
+        }
+
+        .category-name {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .category-count {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .top-users {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+        }
+
+        .user-rank {
+            background: var(--text-accent);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .user-name {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .user-points {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-left: auto;
+        }
+
+        .new-post-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 50px auto;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: var(--text-accent);
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--text-accent);
+        }
+
+        .form-textarea {
+            width: 100%;
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(47, 141, 70, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .forum-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .forum-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .forum-tabs {
+                justify-content: center;
+            }
+            
+            .modal-content {
+                margin: 20px;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                    <svg width="40" height="40" viewBox="0 0 40 40" class="logo-svg">
+                        <rect width="40" height="40" rx="8" fill="#0F7B0F"/>
+                        <text x="20" y="28" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-weight="bold" font-size="16">GFG</text>
+                    </svg>
+                    <span class="logo-text">GeeksforGeeks</span>
+                </a>
+            </div>
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="practice.html">Practice</a></li>
+                    <li><a href="interview.html">Interview</a></li>
+                    <li><a href="jobs.html">Jobs</a></li>
+                    <li><a href="write.html">Write</a></li>
+                    <li><a href="community.html" class="active">Community</a></li>
+                </ul>
+            </nav>
+            <div class="nav-controls">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search discussions..." class="search-input">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <button class="user-menu-btn" id="userMenuBtn" title="User Menu">
+                    <span class="user-icon">👤</span>
+                </button>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Community Container -->
+    <div class="community-container">
+        <div class="community-header">
+            <div class="container">
+                <h1 class="community-title">👥 Community Forum</h1>
+                <p class="community-subtitle">Connect, discuss, and learn with fellow developers</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="forum-controls">
+                <div class="forum-tabs">
+                    <button class="tab-btn active" data-tab="all">All Discussions</button>
+                    <button class="tab-btn" data-tab="questions">Questions</button>
+                    <button class="tab-btn" data-tab="tutorials">Tutorials</button>
+                    <button class="tab-btn" data-tab="showcase">Showcase</button>
+                </div>
+                <button class="new-post-btn" onclick="openNewPostModal()">
+                    ➕ New Discussion
+                </button>
+            </div>
+
+            <div class="forum-content">
+                <div class="posts-section" id="postsContainer">
+                    <!-- Sample posts will be loaded here -->
+                </div>
+
+                <div class="sidebar">
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Categories</h3>
+                        <ul class="category-list">
+                            <li class="category-item" onclick="filterByCategory('algorithms')">
+                                <span class="category-name">🧠 Algorithms</span>
+                                <span class="category-count">24</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('data-structures')">
+                                <span class="category-name">🗂️ Data Structures</span>
+                                <span class="category-count">18</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('web-dev')">
+                                <span class="category-name">🌐 Web Development</span>
+                                <span class="category-count">32</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('python')">
+                                <span class="category-name">🐍 Python</span>
+                                <span class="category-count">28</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('javascript')">
+                                <span class="category-name">⚡ JavaScript</span>
+                                <span class="category-count">35</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('career')">
+                                <span class="category-name">💼 Career</span>
+                                <span class="category-count">15</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Top Contributors</h3>
+                        <div class="top-users">
+                            <div class="user-item">
+                                <div class="user-rank">1</div>
+                                <span class="user-name">CodeMaster</span>
+                                <span class="user-points">2,450 pts</span>
+                            </div>
+                            <div class="user-item">
+                                <div class="user-rank">2</div>
+                                <span class="user-name">AlgoExpert</span>
+                                <span class="user-points">2,180 pts</span>
+                            </div>
+                            <div class="user-item">
+                                <div class="user-rank">3</div>
+                                <span class="user-name">DevGuru</span>
+                                <span class="user-points">1,890 pts</span>
+                            </div>
+                            <div class="user-item">
+                                <div class="user-rank">4</div>
+                                <span class="user-name">PytonNinja</span>
+                                <span class="user-points">1,650 pts</span>
+                            </div>
+                            <div class="user-item">
+                                <div class="user-rank">5</div>
+                                <span class="user-name">WebWizard</span>
+                                <span class="user-points">1,420 pts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Post Modal -->
+    <div class="new-post-modal" id="newPostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create New Discussion</h2>
+                <button class="close-btn" onclick="closeNewPostModal()">&times;</button>
+            </div>
+            <form id="newPostForm">
+                <div class="form-group">
+                    <label class="form-label" for="postTitle">Title</label>
+                    <input type="text" id="postTitle" class="form-input" placeholder="Enter discussion title..." required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="postCategory">Category</label>
+                    <select id="postCategory" class="form-input" required>
+                        <option value="">Select a category</option>
+                        <option value="algorithms">🧠 Algorithms</option>
+                        <option value="data-structures">🗂️ Data Structures</option>
+                        <option value="web-dev">🌐 Web Development</option>
+                        <option value="python">🐍 Python</option>
+                        <option value="javascript">⚡ JavaScript</option>
+                        <option value="career">💼 Career</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="postContent">Content</label>
+                    <textarea id="postContent" class="form-input form-textarea" placeholder="Share your thoughts, ask questions, or start a discussion..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="postTags">Tags (comma-separated)</label>
+                    <input type="text" id="postTags" class="form-input" placeholder="e.g. sorting, recursion, beginner">
+                </div>
+                <button type="submit" class="submit-btn">Create Discussion</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script type="module">
+        import { firebaseHelpers, fallbackToLocalStorage, isFirebaseConfigured } from './firebase-config.js';
+        
+        // Make Firebase helpers available globally for this page
+        window.firebaseHelpers = firebaseHelpers;
+        window.isFirebaseConfigured = isFirebaseConfigured;
+    </script>
+    <script>
+        // Sample forum posts data
+        const samplePosts = [
+            {
+                id: 1,
+                title: "How to optimize recursive algorithms?",
+                content: "I'm struggling with optimizing recursive solutions for dynamic programming problems. Any tips on when to use memoization vs tabulation?",
+                author: "CodeLearner",
+                avatar: "CL",
+                time: "2 hours ago",
+                category: "algorithms",
+                tags: ["recursion", "dynamic-programming", "optimization"],
+                replies: 12,
+                likes: 8,
+                views: 45
+            },
+            {
+                id: 2,
+                title: "Best practices for React component architecture",
+                content: "What are the current best practices for structuring React components in a large application? I'm particularly interested in state management patterns.",
+                author: "ReactDev",
+                avatar: "RD",
+                time: "4 hours ago",
+                category: "web-dev",
+                tags: ["react", "components", "architecture", "state-management"],
+                replies: 7,
+                likes: 15,
+                views: 89
+            },
+            {
+                id: 3,
+                title: "Python vs JavaScript for backend development",
+                content: "I'm deciding between Python and JavaScript for my next backend project. What are the pros and cons of each for modern web applications?",
+                author: "BackendBeginner",
+                avatar: "BB",
+                time: "6 hours ago",
+                category: "career",
+                tags: ["python", "javascript", "backend", "comparison"],
+                replies: 23,
+                likes: 19,
+                views: 156
+            },
+            {
+                id: 4,
+                title: "Understanding Binary Search Tree operations",
+                content: "Can someone explain the time complexity of BST operations and when BSTs become unbalanced? Looking for clear explanations with examples.",
+                author: "DataStructureFan",
+                avatar: "DS",
+                time: "1 day ago",
+                category: "data-structures",
+                tags: ["binary-search-tree", "time-complexity", "balanced-trees"],
+                replies: 9,
+                likes: 11,
+                views: 67
+            },
+            {
+                id: 5,
+                title: "My journey from bootcamp to FAANG - AMA",
+                content: "Just landed a job at a major tech company after completing a coding bootcamp. Happy to share my experience and answer questions about the journey!",
+                author: "BootcampGrad",
+                avatar: "BG",
+                time: "2 days ago",
+                category: "career",
+                tags: ["career", "bootcamp", "interview", "faang"],
+                replies: 34,
+                likes: 87,
+                views: 342
+            },
+            {
+                id: 6,
+                title: "Async/await vs Promises in JavaScript",
+                content: "I'm still confused about when to use async/await vs traditional promises. Can someone provide practical examples of both approaches?",
+                author: "AsyncLearner",
+                avatar: "AL",
+                time: "3 days ago",
+                category: "javascript",
+                tags: ["async-await", "promises", "javascript", "asynchronous"],
+                replies: 16,
+                likes: 22,
+                views: 128
+            }
+        ];
+
+        let currentPosts = [...samplePosts];
+        let currentFilter = 'all';
+
+        // Initialize forum
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPosts(currentPosts);
+            setupEventListeners();
+        });
+
+        function renderPosts(posts) {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = '';
+
+            posts.forEach(post => {
+                const postElement = createPostElement(post);
+                container.appendChild(postElement);
+            });
+        }
+
+        function createPostElement(post) {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post-item';
+            postDiv.innerHTML = `
+                <div class="post-header">
+                    <div class="post-author">
+                        <div class="author-avatar">${post.avatar}</div>
+                        <div class="author-info">
+                            <h4>${post.author}</h4>
+                            <p>${post.time}</p>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="post-title" onclick="openPost(${post.id})">${post.title}</h3>
+                <p class="post-content">${post.content}</p>
+                <div class="post-tags">
+                    ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+                <div class="post-stats">
+                    <div class="stat">
+                        <span>💬</span>
+                        <span>${post.replies} replies</span>
+                    </div>
+                    <div class="stat">
+                        <span>❤️</span>
+                        <span>${post.likes} likes</span>
+                    </div>
+                    <div class="stat">
+                        <span>👁️</span>
+                        <span>${post.views} views</span>
+                    </div>
+                </div>
+            `;
+            return postDiv;
+        }
+
+        function setupEventListeners() {
+            // Tab switching
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const tab = this.dataset.tab;
+                    filterPosts(tab);
+                });
+            });
+
+            // New post form
+            document.getElementById('newPostForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                createNewPost();
+            });
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchPosts(query);
+            });
+        }
+
+        function filterPosts(category) {
+            currentFilter = category;
+            let filteredPosts = [...samplePosts];
+
+            if (category !== 'all') {
+                filteredPosts = samplePosts.filter(post => {
+                    switch(category) {
+                        case 'questions':
+                            return post.title.includes('?') || post.content.includes('?');
+                        case 'tutorials':
+                            return post.tags.some(tag => ['tutorial', 'guide', 'how-to'].includes(tag));
+                        case 'showcase':
+                            return post.title.toLowerCase().includes('my') || post.title.toLowerCase().includes('built');
+                        default:
+                            return post.category === category;
+                    }
+                });
+            }
+
+            currentPosts = filteredPosts;
+            renderPosts(filteredPosts);
+        }
+
+        function filterByCategory(category) {
+            const filteredPosts = samplePosts.filter(post => post.category === category);
+            currentPosts = filteredPosts;
+            renderPosts(filteredPosts);
+        }
+
+        function searchPosts(query) {
+            if (!query) {
+                renderPosts(samplePosts);
+                return;
+            }
+
+            const filteredPosts = samplePosts.filter(post => 
+                post.title.toLowerCase().includes(query) ||
+                post.content.toLowerCase().includes(query) ||
+                post.tags.some(tag => tag.toLowerCase().includes(query)) ||
+                post.author.toLowerCase().includes(query)
+            );
+
+            renderPosts(filteredPosts);
+        }
+
+        function openNewPostModal() {
+            // Check if user is logged in
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                alert('Please login to create a new discussion.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.getElementById('newPostModal').style.display = 'block';
+        }
+
+        function closeNewPostModal() {
+            document.getElementById('newPostModal').style.display = 'none';
+            document.getElementById('newPostForm').reset();
+        }
+
+        function createNewPost() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) return;
+
+            const title = document.getElementById('postTitle').value;
+            const category = document.getElementById('postCategory').value;
+            const content = document.getElementById('postContent').value;
+            const tags = document.getElementById('postTags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
+
+            const newPost = {
+                id: samplePosts.length + 1,
+                title: title,
+                content: content,
+                author: currentUser.name,
+                avatar: currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase(),
+                time: 'Just now',
+                category: category,
+                tags: tags,
+                replies: 0,
+                likes: 0,
+                views: 1
+            };
+
+            // Add to beginning of posts array
+            samplePosts.unshift(newPost);
+            
+            // Save to localStorage
+            const forumPosts = JSON.parse(localStorage.getItem('forumPosts')) || [];
+            forumPosts.unshift(newPost);
+            localStorage.setItem('forumPosts', JSON.stringify(forumPosts));
+
+            // Update user activity
+            updateActivity('Created new forum post');
+
+            // Refresh display
+            filterPosts(currentFilter);
+            closeNewPostModal();
+
+            alert('Your discussion has been posted! 🎉');
+        }
+
+        function openPost(postId) {
+            alert(`Opening post ${postId}...\\n\\nThis would navigate to a detailed post view with comments and reply functionality.`);
+        }
+
+        function updateActivity(action) {
+            const userStats = JSON.parse(localStorage.getItem('userStats')) || {};
+            userStats.lastActivity = new Date().toISOString();
+            localStorage.setItem('userStats', JSON.stringify(userStats));
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('newPostModal');
+            if (event.target === modal) {
+                closeNewPostModal();
+            }
+        });
+
+        // Load any saved posts from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedPosts = JSON.parse(localStorage.getItem('forumPosts')) || [];
+            if (savedPosts.length > 0) {
+                // Merge saved posts with sample posts
+                const allPosts = [...savedPosts, ...samplePosts.filter(post => 
+                    !savedPosts.find(saved => saved.id === post.id)
+                )];
+                samplePosts.splice(0, samplePosts.length, ...allPosts);
+            }
+        });
+    </script>
+    <script type="module" src="../components/chatbot-widget.js"></script>
+    <script type="module" src="../components/auth-guard.js"></script>
+</body>
+</html>

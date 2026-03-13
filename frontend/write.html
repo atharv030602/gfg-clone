@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write & Contribute - GeeksforGeeks Clone</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" class="logo-svg" aria-hidden="true">
+                    <rect width="40" height="40" rx="8" fill="#0F7B0F"/>
+                    <text x="20" y="28" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-weight="bold" font-size="16">GFG</text>
+                </svg>
+                <span class="logo-text">GeeksforGeeks</span>
+            </div>
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="practice.html">Practice</a></li>
+                    <li><a href="interview.html">Interview</a></li>
+                    <li><a href="jobs.html">Jobs</a></li>
+                    <li><a href="write.html" class="active">Write</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="write-hero">
+        <div class="container">
+            <h1>Share Your Knowledge</h1>
+            <p>Contribute to the community by writing articles and tutorials</p>
+        </div>
+    </section>
+
+    <section class="write-content">
+        <div class="container">
+            <div class="contribute-options">
+                <div class="option-card">
+                    <div class="option-icon">✍️</div>
+                    <h3>Write an Article</h3>
+                    <p>Share your programming knowledge with the community</p>
+                    <button class="contribute-btn">Start Writing</button>
+                </div>
+
+                <div class="option-card">
+                    <div class="option-icon">🐛</div>
+                    <h3>Report a Bug</h3>
+                    <p>Help us improve by reporting issues you find</p>
+                    <button class="contribute-btn">Report Issue</button>
+                </div>
+
+                <div class="option-card">
+                    <div class="option-icon">💡</div>
+                    <h3>Suggest Improvements</h3>
+                    <p>Share your ideas to make the platform better</p>
+                    <button class="contribute-btn">Share Ideas</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="../script.js"></script>
+    <script type="module" src="../components/chatbot-widget.js"></script>
+    <script type="module" src="../components/auth-guard.js"></script>
+</body>
+</html>

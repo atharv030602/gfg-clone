@@ -1,0 +1,19 @@
+{
+  "name": "gfg-clone",
+  "version": "2.0.0",
+  "description": "GeeksforGeeks Clone - Dynamic Learning Platform with Firebase & Gemini AI",
+  "scripts": {
+    "dev": "concurrently \"npm run serve\" \"npm run backend\"",
+    "serve": "npx live-server frontend --port=3000 --no-browser",
+    "backend": "node backend/server.js",
+    "lint": "npx eslint components/ api/ backend/ script.js --fix",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "eslint": "^8.56.0",
+    "live-server": "^1.2.2"
+  },
+  "keywords": ["education", "learning-platform", "firebase", "gemini-ai"],
+  "license": "MIT"
+}

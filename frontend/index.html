@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn Data Structures, Algorithms, and Programming with interactive tutorials and practice problems">
+    <meta name="theme-color" content="#2F8D46">
+    <title>GeeksforGeeks Clone - Learn and Practice</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDQwIDQwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcng9IjgiIGZpbGw9IiMwRjdCMEYiLz48dGV4dCB4PSIyMCIgeT0iMjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE2Ij5HRkc8L3RleHQ+PC9zdmc+">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMEY3QjBGIi8+PHRleHQgeD0iMjAiIHk9IjI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNiI+R0ZHPC90ZXh0Pjwvc3ZnPg==">
+    
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" class="logo-svg">
+                    <rect width="40" height="40" rx="8" fill="#0F7B0F"/>
+                    <text x="20" y="28" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-weight="bold" font-size="16">GFG</text>
+                </svg>
+                <span class="logo-text">GeeksforGeeks</span>
+            </div>
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="practice.html">Practice</a></li>
+                    <li><a href="interview.html">Interview</a></li>
+                    <li><a href="jobs.html">Jobs</a></li>
+                    <li><a href="write.html">Write</a></li>
+                    <li><a href="login.html" class="login-btn">Login</a></li>
+                </ul>
+            </nav>
+            <div class="nav-controls">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search articles..." class="search-input">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Learn Data Structures and Algorithms</h1>
+                <p>Master coding skills with comprehensive tutorials, practice problems, and interview preparation</p>
+                <button class="cta-button">Learn and Practice</button>
+            </div>
+            <div class="hero-image">
+                <img src="images/hero-coding.svg" alt="Programming Illustration">
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <section class="articles-section">
+                <h2>Latest Articles & Tutorials</h2>
+                
+                <div class="content-controls">
+                    <div class="filter-section">
+                        <label class="filter-label">Filter by:</label>
+                        <select class="filter-select" id="difficultyFilter">
+                            <option value="all">All Levels</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                        
+                        <select class="filter-select" id="topicFilter">
+                            <option value="all">All Topics</option>
+                            <option value="data-structures">Data Structures</option>
+                            <option value="algorithms">Algorithms</option>
+                            <option value="web-development">Web Development</option>
+                            <option value="python">Python</option>
+                            <option value="machine-learning">Machine Learning</option>
+                        </select>
+                    </div>
+                    
+                    <div class="sort-buttons">
+                        <button class="sort-btn active" data-sort="date">📅 Latest</button>
+                        <button class="sort-btn" data-sort="popular">🔥 Popular</button>
+                        <button class="sort-btn" data-sort="read-time">⏱️ Quick Read</button>
+                    </div>
+                </div>
+                
+                <div class="articles-grid" id="articlesGrid">
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img src="images/data-structures.svg" alt="Data Structures">
+                        </div>
+                        <div class="article-content">
+                            <h3>Complete Guide to Data Structures</h3>
+                            <p>Learn about arrays, linked lists, stacks, queues, trees, and graphs with practical examples.</p>
+                            <div class="article-meta">
+                                <span class="date">Oct 9, 2025</span>
+                                <span class="read-time">8 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img src="images/algorithms.svg" alt="Algorithms">
+                        </div>
+                        <div class="article-content">
+                            <h3>Algorithm Design Patterns</h3>
+                            <p>Master sorting, searching, dynamic programming, and greedy algorithms with step-by-step explanations.</p>
+                            <div class="article-meta">
+                                <span class="date">Oct 8, 2025</span>
+                                <span class="read-time">12 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img src="images/interview-prep.svg" alt="Interview Preparation">
+                        </div>
+                        <div class="article-content">
+                            <h3>Technical Interview Preparation</h3>
+                            <p>Everything you need to know to ace your next coding interview with confidence.</p>
+                            <div class="article-meta">
+                                <span class="date">Oct 7, 2025</span>
+                                <span class="read-time">10 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img src="images/python.svg" alt="Python Programming">
+                        </div>
+                        <div class="article-content">
+                            <h3>Python Programming Fundamentals</h3>
+                            <p>Complete guide to Python programming from basics to advanced concepts with practical projects.</p>
+                            <div class="article-meta">
+                                <span class="date">Oct 6, 2025</span>
+                                <span class="read-time">15 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img src="images/web-dev.svg" alt="Web Development">
+                        </div>
+                        <div class="article-content">
+                            <h3>Modern Web Development</h3>
+                            <p>Learn HTML, CSS, JavaScript, and popular frameworks to build amazing web applications.</p>
+                            <div class="article-meta">
+                                <span class="date">Oct 5, 2025</span>
+                                <span class="read-time">20 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img src="images/machine-learning.svg" alt="Machine Learning">
+                        </div>
+                        <div class="article-content">
+                            <h3>Introduction to Machine Learning</h3>
+                            <p>Explore the fundamentals of ML, from basic concepts to implementing your first model.</p>
+                            <div class="article-meta">
+                                <span class="date">Oct 4, 2025</span>
+                                <span class="read-time">18 min read</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="practice-section">
+                <h2>Practice Problems</h2>
+                <div class="practice-grid">
+                    <div class="practice-card easy">
+                        <h3>Easy Problems</h3>
+                        <p>Perfect for beginners</p>
+                        <span class="problem-count">150+ Problems</span>
+                    </div>
+                    <div class="practice-card medium">
+                        <h3>Medium Problems</h3>
+                        <p>Build your confidence</p>
+                        <span class="problem-count">200+ Problems</span>
+                    </div>
+                    <div class="practice-card hard">
+                        <h3>Hard Problems</h3>
+                        <p>Challenge yourself</p>
+                        <span class="problem-count">100+ Problems</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="#algorithms">Algorithms</a></li>
+                        <li><a href="#data-structures">Data Structures</a></li>
+                        <li><a href="#languages">Languages</a></li>
+                        <li><a href="#interview">Interview Corner</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Practice</h4>
+                    <ul>
+                        <li><a href="#coding">Coding Practice</a></li>
+                        <li><a href="#competitions">Competitions</a></li>
+                        <li><a href="#mock-tests">Mock Tests</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">📘</a>
+                        <a href="#" class="social-icon">🐦</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">💼</a>
+                        <a href="#" class="social-icon">📺</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GeeksforGeeks Clone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../script.js"></script>
+
+            <div class="chat-input-area">
+                <input
+                    id="chatInput"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Ask a coding question..."
+                    aria-label="Type your message"
+                    onkeypress="handleKeyPress(event)"
+                />
+                <button type="button" id="sendBtn" class="send-btn" onclick="sendMessage()">
+                    ➤
+                </button>
+            </div>
+
+            <div class="chatbot-footer-note">
+                Responses are AI-generated. Please verify important information.
+            </div>
+        </div>
+    </div>
+    <script type="module" src="../components/ai-search.js"></script>
+    <script type="module" src="../components/chatbot-widget.js"></script>
+    <script type="module" src="../components/auth-guard.js"></script>
+</body>
+</html>

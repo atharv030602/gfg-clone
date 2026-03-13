@@ -1,12 +1,10 @@
 // Service Worker for GeeksforGeeks Clone
-// Update CACHE_NAME when changing cached assets to force refresh.
-const CACHE_NAME = 'gfg-clone-v2';
+const CACHE_NAME = 'gfg-clone-v1';
 const urlsToCache = [
   '/',
   '/index.html',
   '/styles.css',
   '/script.js',
-  '/ai-chatbot.js',
   '/courses.html',
   '/practice.html',
   '/interview.html',
@@ -19,9 +17,6 @@ const urlsToCache = [
 
 // Install event - cache resources
 self.addEventListener('install', function(event) {
-  // Activate the new service worker immediately
-  self.skipWaiting();
-
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function(cache) {
@@ -31,56 +26,48 @@ self.addEventListener('install', function(event) {
   );
 });
 
-// Fetch event - serve cached content when offline, but favor network for scripts/styles
+// Fetch event - serve cached content when offline
 self.addEventListener('fetch', function(event) {
-  const requestUrl = new URL(event.request.url);
-
-  // For navigation requests and HTML pages, use network-first strategy
-  if (event.request.mode === 'navigate' || requestUrl.pathname.endsWith('.html')) {
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
-          return response;
-        })
-        .catch(() => caches.match(event.request).then(cached => cached || caches.match('/index.html')))
-    );
-    return;
-  }
-
-  // For CSS/JS/images, use cache-first strategy
-  if (requestUrl.pathname.endsWith('.css') || requestUrl.pathname.endsWith('.js') || requestUrl.pathname.endsWith('.png') || requestUrl.pathname.endsWith('.svg')) {
-    event.respondWith(
-      caches.match(event.request).then(function(response) {
-        return response || fetch(event.request).then(function(networkResponse) {
-          if (!networkResponse || networkResponse.status !== 200) {
-            return networkResponse;
-          }
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then(function(cache) {
-            cache.put(event.request, responseToCache);
-          });
-          return networkResponse;
-        }).catch(() => response);
-      })
-    );
-    return;
-  }
-
-  // Default strategy: cache-first with network fallback
   event.respondWith(
-    caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
-    })
+    caches.match(event.request)
+      .then(function(response) {
+        // Cache hit - return response
+        if (response) {
+          return response;
+        }
+
+        // Clone the request because it's a stream
+        const fetchRequest = event.request.clone();
+
+        return fetch(fetchRequest).then(
+          function(response) {
+            // Check if we received a valid response
+            if(!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            // Clone the response because it's a stream
+            const responseToCache = response.clone();
+
+            caches.open(CACHE_NAME)
+              .then(function(cache) {
+                cache.put(event.request, responseToCache);
+              });
+
+            return response;
+          }
+        ).catch(function() {
+          // Return a generic offline page for navigation requests
+          if (event.request.destination === 'document') {
+            return caches.match('/index.html');
+          }
+        });
+      })
   );
 });
 
 // Activate event - cleanup old caches
 self.addEventListener('activate', function(event) {
-  // Take control of all clients immediately
-  self.clients.claim();
-
   const cacheWhitelist = [CACHE_NAME];
 
   event.waitUntil(

@@ -97,8 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Ensure chatbot is available on all pages
-    initializeGlobalChatbot();
 });
 
 // Add CSS for mobile menu
@@ -258,105 +256,6 @@ function initializeLazyLoading() {
         img.classList.add('lazy-image');
         imageObserver.observe(img);
     });
-}
-
-// Global chatbot injection (works across all pages)
-function initializeGlobalChatbot() {
-    if (document.getElementById('chatContainer')) {
-        // Chatbot already exists on this page (e.g., AI Assistant page)
-        return;
-    }
-
-    const widget = document.createElement('div');
-    widget.className = 'ai-chat-widget';
-    widget.innerHTML = `
-        <button class="chat-toggle-btn" id="chatToggle" type="button" aria-label="Open AI assistant">
-            💬
-        </button>
-
-        <div class="chat-container" id="chatContainer" aria-live="polite" aria-label="Gemini AI chatbot">
-            <div class="chat-header">
-                <h3>
-                    <span class="status-indicator" aria-hidden="true"></span>
-                    AI Coding Assistant
-                </h3>
-                <button class="chat-close-btn" type="button" aria-label="Close chat">×</button>
-            </div>
-
-            <div class="chat-messages" id="chatMessages">
-                <div class="welcome-message">
-                    <h4>👋 Hi there!</h4>
-                    <p>Ask me anything about data structures, algorithms, or programming.</p>
-                    <div class="quick-actions">
-                        <button class="quick-action-btn" type="button" data-suggest="Explain binary search algorithm">📚 Explain binary search</button>
-                        <button class="quick-action-btn" type="button" data-suggest="What are the common data structures?">🗂️ Common data structures</button>
-                        <button class="quick-action-btn" type="button" data-suggest="Tips for coding interviews">💼 Interview tips</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="chat-input-area">
-                <input
-                    id="chatInput"
-                    type="text"
-                    autocomplete="off"
-                    placeholder="Ask a coding question..."
-                    aria-label="Type your message"
-                />
-                <button type="button" id="sendBtn" class="send-btn" aria-label="Send message">
-                    ➤
-                </button>
-            </div>
-
-            <div class="chatbot-footer-note">
-                Responses are AI-generated. Please verify important information.
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(widget);
-
-    // Add click handlers once DOM is updated
-    const toggleButton = document.getElementById('chatToggle');
-    const closeButton = widget.querySelector('.chat-close-btn');
-
-    function safeToggle() {
-        if (typeof toggleChat === 'function') {
-            toggleChat();
-        }
-    }
-
-    function safeSendQuick(message) {
-        if (typeof sendQuickMessage === 'function') {
-            sendQuickMessage(message);
-        }
-    }
-
-    if (toggleButton) {
-        toggleButton.addEventListener('click', safeToggle);
-    }
-
-    if (closeButton) {
-        closeButton.addEventListener('click', safeToggle);
-    }
-
-    // Quick suggestion buttons
-    widget.querySelectorAll('.quick-action-btn').forEach(btn => {
-        btn.addEventListener('click', (event) => {
-            const msg = event.currentTarget.getAttribute('data-suggest');
-            if (msg) {
-                safeSendQuick(msg);
-            }
-        });
-    });
-
-    // Load chatbot logic if not already loaded
-    if (!document.querySelector('script[src="ai-chatbot.js"]')) {
-        const script = document.createElement('script');
-        script.src = 'ai-chatbot.js';
-        script.defer = true;
-        document.body.appendChild(script);
-    }
 }
 
 // Filter and Sort functionality
@@ -692,23 +591,18 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-// Initialize all enhancements
+// Initialize additional enhancements
 document.addEventListener('DOMContentLoaded', function() {
-    // Core functionality
-    initializeTheme();
-    initializeSearch();
     initializeLazyLoading();
     initializeFilterSort();
     initializeMobileMenu();
-    initializeProgressTracking();
-    initializeChatbot();
     
-    // Performance optimizations
+    // Stagger fade-in animations
     document.querySelectorAll('.fade-in').forEach((el, i) => {
         el.style.animationDelay = `${i * 0.1}s`;
     });
     
-    // Clean up old cache
+    // Periodic cache cleanup
     setInterval(() => {
         const oldKeys = Object.keys(localStorage).filter(key => {
             if (!key.startsWith('gfg_')) return false;
@@ -720,117 +614,5 @@ document.addEventListener('DOMContentLoaded', function() {
         oldKeys.forEach(key => localStorage.removeItem(key));
     }, 300000);
     
-    console.log('🚀 GeeksforGeeks Clone initialized with optimizations!');
+    console.log('🚀 GeeksforGeeks Clone initialized!');
 });
-
-function initializeChatbot() {
-    const toggleBtn = document.getElementById('chatbot-toggle');
-    const chatbot = document.getElementById('chatbot');
-    const closeBtn = document.getElementById('chatbot-close');
-    const form = document.getElementById('chatbot-form');
-    const input = document.getElementById('chatbot-input');
-    const messagesEl = document.getElementById('chatbot-messages');
-
-    if (!toggleBtn || !chatbot || !closeBtn || !form || !input || !messagesEl) return;
-
-    const openChat = () => {
-        chatbot.classList.add('chatbot-open');
-        setTimeout(() => input.focus(), 0);
-    };
-
-    const closeChat = () => {
-        chatbot.classList.remove('chatbot-open');
-    };
-
-    toggleBtn.addEventListener('click', () => {
-        if (chatbot.classList.contains('chatbot-open')) closeChat();
-        else openChat();
-    });
-
-    closeBtn.addEventListener('click', closeChat);
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeChat();
-    });
-
-    const appendMessage = ({ role, text }) => {
-        const wrapper = document.createElement('div');
-        wrapper.className = `chatbot-message chatbot-message-${role}`;
-
-        const sender = document.createElement('div');
-        sender.className = 'chatbot-message-sender';
-        sender.textContent = role === 'user' ? 'You' : 'AI';
-
-        const bubble = document.createElement('div');
-        bubble.className = 'chatbot-message-bubble';
-        bubble.textContent = text;
-
-        wrapper.appendChild(sender);
-        wrapper.appendChild(bubble);
-        messagesEl.appendChild(wrapper);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-    };
-
-    const getApiKey = () => localStorage.getItem('gemini_api_key') || '';
-
-    const ensureApiKey = () => {
-        let key = getApiKey();
-        if (key) return key;
-        key = window.prompt('Enter your Gemini API key (it will be stored in this browser).');
-        if (!key) return '';
-        localStorage.setItem('gemini_api_key', key.trim());
-        return key.trim();
-    };
-
-    const callGemini = async ({ apiKey, userText }) => {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
-        const res = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ role: 'user', parts: [{ text: userText }] }],
-                generationConfig: {
-                    temperature: 0.6,
-                    maxOutputTokens: 512
-                }
-            })
-        });
-
-        const data = await res.json();
-        if (!res.ok) {
-            const message = data?.error?.message || `Request failed (${res.status})`;
-            throw new Error(message);
-        }
-
-        const text =
-            data?.candidates?.[0]?.content?.parts?.map((p) => p.text).filter(Boolean).join('') ||
-            '';
-        return text || "I couldn't generate a response.";
-    };
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const userText = input.value.trim();
-        if (!userText) return;
-
-        appendMessage({ role: 'user', text: userText });
-        input.value = '';
-
-        const apiKey = ensureApiKey();
-        if (!apiKey) {
-            appendMessage({ role: 'ai', text: 'Missing API key. Please add one to continue.' });
-            return;
-        }
-
-        appendMessage({ role: 'ai', text: 'Thinking…' });
-        const thinkingNode = messagesEl.lastElementChild;
-
-        try {
-            const reply = await callGemini({ apiKey, userText });
-            if (thinkingNode) thinkingNode.querySelector('.chatbot-message-bubble').textContent = reply;
-        } catch (err) {
-            const msg = err instanceof Error ? err.message : 'Something went wrong.';
-            if (thinkingNode) thinkingNode.querySelector('.chatbot-message-bubble').textContent = `Error: ${msg}`;
-        }
-    });
-}
